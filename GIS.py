@@ -84,8 +84,10 @@ def GIS(Y,k=None):
     sample = (sample+sample.T)/2                              #make symmetrical
 
     #Spectral decomp
-    lambda1, u = np.linalg.eigh(sample)            #use Cholesky factorisation 
-    #                                               based on hermitian matrix
+    lambda1, u = np.linalg.eig(sample)                     #use LAPACK routines 
+    lambda1 = lambda1.real           #clip imaginary part due to rounding error
+    u = u.real                            #clip imaginary part for eigenvectors
+
     lambda1 = lambda1.real.clip(min=0)              #reset negative values to 0
     dfu = pd.DataFrame(u,columns=lambda1)   #create df with column names lambda
     #                                        and values u
@@ -130,9 +132,15 @@ def GIS(Y,k=None):
     
     return sigmahat
 
-df = pd.read_csv(r'C:\Users\Patrick Ledoit\Documents\Python\translation\input1.csv')
+#Data input (Change path to match your own here)
+df = pd.read_csv(r'C:\Users\user\Documents\Python\covShrinkage-main\covShrinkage-main\Y.csv')
 df = df.T.reset_index().T.reset_index(drop=True)
 df = df.astype(float)
 
-sigmahat = GIS(df)
-print(sigmahat)
+sigmahat = GIS(df)   #function call
+
+#display output
+pd.options.display.float_format = "{:,.16f}".format
+print(sigmahat) 
+#save output (Change path to match your own here)
+sigmahat.to_csv(r'C:\Users\user\Documents\Python\covShrinkage-main\covShrinkage-main\G_out.csv')
