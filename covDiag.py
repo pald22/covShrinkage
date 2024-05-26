@@ -84,7 +84,7 @@ def covDiag(Y,k = None):
     
     # estimate the parameter that we call pi in Ledoit and Wolf (2003, JEF)
     Y2 = pd.DataFrame(np.multiply(Y.to_numpy(),Y.to_numpy()))
-    sample2= pd.DataFrame(np.matmul(Y2.T.to_numpy(),Y2.to_numpy()))/n     # sample covariance matrix of squared returns
+    sample2= pd.DataFrame(np.matmul(Y2.T.to_numpy(),Y2.to_numpy()))/n     # sample matrix of squared returns
     piMat=pd.DataFrame(sample2.to_numpy()-np.multiply(sample.to_numpy(),sample.to_numpy()))
     pihat = sum(piMat.sum())
     
