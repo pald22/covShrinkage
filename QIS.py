@@ -79,7 +79,7 @@ def QIS(Y,k=None):
     sample = (sample+sample.T)/2                              #make symmetrical
 
     #Spectral decomp
-    lambda1, u = np.linalg.eig(sample)                     #use LAPACK routines 
+    lambda1, u = np.linalg.eigh(sample)                    #use LAPACK routines 
     lambda1 = lambda1.real           #clip imaginary part due to rounding error
     u = u.real                            #clip imaginary part for eigenvectors
     
